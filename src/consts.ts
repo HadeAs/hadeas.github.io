@@ -9,7 +9,7 @@ export const SITE_METADATA = {
   description: "这里有我从事web研发历程中的一些心得和知识分享，欢迎浏览！",
   language: "en-us",
   theme: "system", // Options: system, light, dark, Does not work yet
-  siteUrl: "http://hadeas.cn/",
+  siteUrl: "https://hadeas.cn/",
   siteRepo: "https://github.com/HadeAs/hadeas.github.io",
   siteLogo: "/static/images/logo.png",
   socialBanner: "/static/images/twitter-card.png",
