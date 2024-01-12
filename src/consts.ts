@@ -104,8 +104,8 @@ export const ITEMS_PER_PAGE = 5;
 
 export const NAVIGATION = [
   { href: "/", title: "Home" },
-  { href: "/blog", title: "Blog" },
-  { href: "/tags", title: "Tags" },
-  { href: "/projects", title: "Projects" },
-  { href: "/about", title: "About" },
+  { href: "/blog", title: "文章" },
+  { href: "/tags", title: "标签" },
+  // { href: "/projects", title: "项目" },
+  { href: "/about", title: "关于" },
 ];
