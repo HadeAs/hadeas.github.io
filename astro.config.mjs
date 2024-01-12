@@ -8,6 +8,10 @@ import { SITE_METADATA } from "./src/consts.ts";
 // https://astro.build/config
 export default defineConfig({
   prefetch: true,
+  trailingSlash: "never",
+  build: {
+    format: "file",
+  },
   site: SITE_METADATA.siteUrl,
   integrations: [mdx(), sitemap(), tailwind()],
 });
