@@ -1,0 +1,34 @@
+---
+// TableOfContentsHeading.astro
+const { heading } = Astro.props;
+---
+
+<li class="custom-li">
+  <a href={"#" + heading.slug}>
+    {heading.text}
+  </a>
+  {
+    heading.subheadings.length > 0 && (
+      <ul class="sub-heading">
+        {heading.subheadings.map((subheading) => (
+          <Astro.self heading={subheading} />
+        ))}
+      </ul>
+    )
+  }
+</li>
+<style>
+  .sub-heading {
+    padding-left: 1em;
+  }
+  .custom-li a {
+    display: inline-block;
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .custom-li.visible > a {
+    color: #111;
+    transform: translate(5px);
+  }
+</style>

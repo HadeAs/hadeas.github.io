@@ -7,6 +7,7 @@ import RootLayout from "./RootLayout.astro";
 import { type CollectionEntry, getEntries } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import Tag from "../components/Tag.astro";
+import TableOfContents from "../components/TableOfContents.astro";
 import ScrollTopAndComments from "../components/ScrollTopAndComments.astro";
 
 interface Props {
@@ -29,6 +30,7 @@ const { Content, headings, remarkPluginFrontmatter } = await post.render();
 <RootLayout title={post.data.title} description={post.data.summary}>
   <SectionContainer>
     <ScrollTopAndComments />
+    <TableOfContents headings={headings} />
     <article>
       <div class="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
         <header class="pt-6 xl:pb-6">
@@ -183,7 +185,7 @@ const { Content, headings, remarkPluginFrontmatter } = await post.render();
                 related.length > 0 && (
                   <div class="py-4 xl:pb-8">
                     <h2 class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                      Related Articles
+                      相关文章
                     </h2>
                     <ul class="flex flex-wrap gap-2 xl:space-x-0 xl:space-y-0">
                       {related.map((post) => (
