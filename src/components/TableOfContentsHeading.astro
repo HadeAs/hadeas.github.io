@@ -4,7 +4,7 @@ const { heading } = Astro.props;
 ---
 
 <li class="custom-li">
-  <a href={"#" + heading.slug}>
+  <a href={"#" + heading.slug} title={heading.text}>
     {heading.text}
   </a>
   {
@@ -21,7 +21,15 @@ const { heading } = Astro.props;
   .sub-heading {
     padding-left: 1em;
   }
+  .custom-li {
+    font-size: 14px;
+    line-height: 1.5rem;
+  }
   .custom-li a {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     display: inline-block;
     color: #aaa;
     text-decoration: none;
