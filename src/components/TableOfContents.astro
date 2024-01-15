@@ -1,7 +1,7 @@
 ---
 import TableOfContentsHeading from "./TableOfContentsHeading.astro";
 
-const { headings } = Astro.props;
+const { headings, slug } = Astro.props;
 const toc = buildToc(headings);
 
 function buildToc(headings) {
@@ -41,7 +41,7 @@ function buildToc(headings) {
       transform="translate(-0.5, -0.5)"></path>
   </svg>
 </nav>
-<script is:inline>
+<script define:vars={{ slug }}>
   globalThis.isInitialized = false;
   if (!globalThis.isInitialized) {
     const toc = document.querySelector("nav.toc");
@@ -65,7 +65,6 @@ function buildToc(headings) {
         const target = document.getElementById(
           anchor.getAttribute("href").slice(1)
         );
-        console.log(target);
         return {
           listItem: item,
           anchor: anchor,

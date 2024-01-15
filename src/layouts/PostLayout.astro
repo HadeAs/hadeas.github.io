@@ -15,7 +15,7 @@ interface Props {
   next?: CollectionEntry<"blog">;
   prev?: CollectionEntry<"blog">;
 }
-
+const { slug } = Astro.params;
 const { post, next, prev } = Astro.props as Props;
 const authors: CollectionEntry<"authors">[] = await getEntries(
   post.data.authors
@@ -30,7 +30,7 @@ const { Content, headings, remarkPluginFrontmatter } = await post.render();
 <RootLayout title={post.data.title} description={post.data.summary}>
   <SectionContainer>
     <ScrollTopAndComments />
-    <TableOfContents headings={headings} />
+    <TableOfContents headings={headings} slug={slug} />
     <article>
       <div class="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
         <header class="pt-6 xl:pb-6">
