@@ -49,9 +49,9 @@ import SearchResult from "./SearchResult.astro";
 <script is:inline>
   const searchBg = document.getElementById("searchBg");
   const searchBtn = document.getElementById("searchBtn");
-  const searchResult = document.querySelector(".pagefind-ui__drawer");
-  const searchClear = document.querySelector(".pagefind-ui__search-clear");
-  const searchInput = document.querySelector(".pagefind-ui__search-input");
+  //   const searchResult = document.querySelector(".pagefind-ui__drawer");
+  //   const searchClear = document.querySelector(".pagefind-ui__search-clear");
+  //   const searchInput = document.querySelector(".pagefind-ui__search-input");
 
   searchBg.addEventListener("click", (event) => {
     if (event.target?.getAttribute("id") === "searchBg") {
@@ -63,59 +63,59 @@ import SearchResult from "./SearchResult.astro";
     searchBg.classList.toggle("hidden", false);
   });
 
-  searchClear.addEventListener("click", () => {
-    searchInput.value = "";
-    searchResult.classList.toggle("hidden", true);
-  });
+  //   searchClear.addEventListener("click", () => {
+  //     searchInput.value = "";
+  //     searchResult.classList.toggle("hidden", true);
+  //   });
 
-  searchInput?.addEventListener("input", async (e) => {
-    searchResult.classList.toggle("hidden", e.target.value ? false : true);
-    // only load the pagefind script once
-    if (e.target.dataset.loaded !== "true") {
-      e.target.dataset.loaded = "true";
-      // load the pagefind script
-      window.pagefind = await import("/pagefind/pagefind.js");
-    }
+  //   searchInput?.addEventListener("input", async (e) => {
+  //     searchResult.classList.toggle("hidden", e.target.value ? false : true);
+  //     // only load the pagefind script once
+  //     if (e.target.dataset.loaded !== "true") {
+  //       e.target.dataset.loaded = "true";
+  //       // load the pagefind script
+  //       window.pagefind = await import("/pagefind/pagefind.js");
+  //     }
 
-    // search the index using the input value
-    const search = await window.pagefind.debouncedSearch(e.target.value);
-    const tips = search.results.length
-      ? `${search.results.length} results for ${e.target.value}`
-      : `No results for ${e.target.value}`;
-    // clear the old results
-    resHTML = "";
-    // add the new results
-    for (const result of search.results) {
-      const data = await result.data();
-      const subResHTML = "";
-      if (data.sub_results) {
-        for (const sub of data.sub_results) {
-          subResHTML += `
-            <div class="pagefind-ui__result-nested">
-              <p class="pagefind-ui__result-title">
-                <a class="pagefind-ui__result-link" href="${sub.url}">${sub.title}</a>
-              </p>
-              <p class="pagefind-ui__result-excerpt">${sub.excerpt}</p>
-            </div>
-            `;
-        }
-      }
-      resHTML += `
-        <li class="pagefind-ui__result">
-          <div class="pagefind-ui__result-inner">
-            <p class="pagefind-ui__result-title">
-              <a class="pagefind-ui__result-link" href="${data.url}">${data.meta.title}</a>
-            </p>
-            <p class="pagefind-ui__result-excerpt">${data.excerpt}</p>
-            ${subResHTML}
-          </div>
-        </li>`;
-    }
-    searchResult.innerHTML = `
-      <div class="pagefind-ui__results-area">
-        <p class="pagefind-ui__message">${tips}</p>
-        <ol class="pagefind-ui__results">${resHTML}</ol>
-      </div>
-    `;
-  });
+  //     // search the index using the input value
+  //     const search = await window.pagefind.search(e.target.value);
+  //     const tips = search.results.length
+  //       ? `${search.results.length} results for ${e.target.value}`
+  //       : `No results for ${e.target.value}`;
+  //     // clear the old results
+  //     resHTML = "";
+  //     // add the new results
+  //     for (const result of search.results) {
+  //       const data = await result.data();
+  //       const subResHTML = "";
+  //       if (data.sub_results) {
+  //         for (const sub of data.sub_results) {
+  //           subResHTML += `
+  //             <div class="pagefind-ui__result-nested">
+  //               <p class="pagefind-ui__result-title">
+  //                 <a class="pagefind-ui__result-link" href="${sub.url}">${sub.title}</a>
+  //               </p>
+  //               <p class="pagefind-ui__result-excerpt">${sub.excerpt}</p>
+  //             </div>
+  //             `;
+  //         }
+  //       }
+  //       resHTML += `
+  //         <li class="pagefind-ui__result">
+  //           <div class="pagefind-ui__result-inner">
+  //             <p class="pagefind-ui__result-title">
+  //               <a class="pagefind-ui__result-link" href="${data.url}">${data.meta.title}</a>
+  //             </p>
+  //             <p class="pagefind-ui__result-excerpt">${data.excerpt}</p>
+  //             ${subResHTML}
+  //           </div>
+  //         </li>`;
+  //     }
+  //     searchResult.innerHTML = `
+  //       <div class="pagefind-ui__results-area">
+  //         <p class="pagefind-ui__message">${tips}</p>
+  //         <ol class="pagefind-ui__results">${resHTML}</ol>
+  //       </div>
+  //     `;
+  //   });
 </script>
