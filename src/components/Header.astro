@@ -1,43 +1,121 @@
 ---
-import {SITE_METADATA, NAVIGATION} from '@/consts';
-import HeaderLink from './HeaderLink.astro';
-import Logo from './Logo.astro';
+import { SITE_METADATA, NAVIGATION } from "@/consts";
+import HeaderLink from "./HeaderLink.astro";
+import Logo from "./Logo.astro";
 import MobileNav from "./MobileNav.astro";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
+import SearchButton from "./SearchButton.astro";
+import SearchResult from "./SearchResult.astro";
 ---
 
 <header class="flex items-center justify-between py-10">
-    <div>
-        <a href="/" aria-label={SITE_METADATA.headerTitle}>
-            <div class="flex items-center justify-between">
-                <div class="mr-3">
-                    <Logo/>
-                </div>
-                {typeof SITE_METADATA.headerTitle === 'string' ? (
-                        <div class="hidden h-6 text-2xl font-semibold sm:block">
-                            {SITE_METADATA.headerTitle}
-                        </div>
-                ) : (
-                    SITE_METADATA.headerTitle
-                )}
+  <div>
+    <a href="/" aria-label={SITE_METADATA.headerTitle}>
+      <div class="flex items-center justify-between">
+        <div class="mr-3">
+          <Logo />
+        </div>
+        {
+          typeof SITE_METADATA.headerTitle === "string" ? (
+            <div class="hidden h-6 text-2xl font-semibold sm:block">
+              {SITE_METADATA.headerTitle}
             </div>
-        </a>
-    </div>
-    <div class="flex items-center leading-5 space-x-4 sm:space-x-6">
-        {NAVIGATION
-            .filter((link) => link.href !== '/')
-            .map((link) => (
-                    <HeaderLink
-                            href={link.href}
-                            class="hidden sm:block font-medium text-gray-900 dark:text-gray-100"
-                    >
-                        {link.title}
-                    </HeaderLink>
-            ))}
+          ) : (
+            SITE_METADATA.headerTitle
+          )
+        }
+      </div>
+    </a>
+  </div>
+  <div class="flex items-center leading-5 space-x-4 sm:space-x-6">
+    {
+      NAVIGATION.filter((link) => link.href !== "/").map((link) => (
+        <HeaderLink
+          href={link.href}
+          class="hidden sm:block font-medium text-gray-900 dark:text-gray-100"
+        >
+          {link.title}
+        </HeaderLink>
+      ))
+    }
 
-        <!--TODO: add theme button-->
-        <!--<SearchButton />-->
-        <ThemeSwitcher />
-        <MobileNav />
-    </div>
+    <!--TODO: add theme button-->
+    <SearchButton />
+    <ThemeSwitcher />
+    <MobileNav />
+  </div>
 </header>
+<SearchResult />
+<script is:inline>
+  const searchBg = document.getElementById("searchBg");
+  const searchBtn = document.getElementById("searchBtn");
+  const searchResult = document.querySelector(".pagefind-ui__drawer");
+  const searchClear = document.querySelector(".pagefind-ui__search-clear");
+  const searchInput = document.querySelector(".pagefind-ui__search-input");
+
+  searchBg.addEventListener("click", (event) => {
+    if (event.target?.getAttribute("id") === "searchBg") {
+      searchBg.classList.toggle("hidden", true);
+    }
+  });
+
+  searchBtn.addEventListener("click", () => {
+    searchBg.classList.toggle("hidden", false);
+  });
+
+  searchClear.addEventListener("click", () => {
+    searchInput.value = "";
+    searchResult.classList.toggle("hidden", true);
+  });
+
+  searchInput?.addEventListener("input", async (e) => {
+    searchResult.classList.toggle("hidden", e.target.value ? false : true);
+    // only load the pagefind script once
+    if (e.target.dataset.loaded !== "true") {
+      e.target.dataset.loaded = "true";
+      // load the pagefind script
+      window.pagefind = await import("/pagefind/pagefind.js");
+    }
+
+    // search the index using the input value
+    const search = await window.pagefind.debouncedSearch(e.target.value);
+    const tips = search.results.length
+      ? `${search.results.length} results for ${e.target.value}`
+      : `No results for ${e.target.value}`;
+    // clear the old results
+    resHTML = "";
+    // add the new results
+    for (const result of search.results) {
+      const data = await result.data();
+      const subResHTML = "";
+      if (data.sub_results) {
+        for (const sub of data.sub_results) {
+          subResHTML += `
+            <div class="pagefind-ui__result-nested">
+              <p class="pagefind-ui__result-title">
+                <a class="pagefind-ui__result-link" href="${sub.url}">${sub.title}</a>
+              </p>
+              <p class="pagefind-ui__result-excerpt">${sub.excerpt}</p>
+            </div>
+            `;
+        }
+      }
+      resHTML += `
+        <li class="pagefind-ui__result">
+          <div class="pagefind-ui__result-inner">
+            <p class="pagefind-ui__result-title">
+              <a class="pagefind-ui__result-link" href="${data.url}">${data.meta.title}</a>
+            </p>
+            <p class="pagefind-ui__result-excerpt">${data.excerpt}</p>
+            ${subResHTML}
+          </div>
+        </li>`;
+    }
+    searchResult.innerHTML = `
+      <div class="pagefind-ui__results-area">
+        <p class="pagefind-ui__message">${tips}</p>
+        <ol class="pagefind-ui__results">${resHTML}</ol>
+      </div>
+    `;
+  });
+</script>

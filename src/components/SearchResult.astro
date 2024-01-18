@@ -1,0 +1,33 @@
+<div
+  id="searchBg"
+  class="fixed w-full h-screen top-0 left-0 p-8 flex justify-center z-50 bg-[rgba(0,0,0,0.5)] backdrop-blur-sm hidden"
+>
+  <div
+    class="md:w-[40rem] h-fit max-h-[80%] overflow-auto bg-gray-100 dark:bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col gap-y-4"
+  >
+    <div
+      id="results"
+      class="flex flex-col gap-y-2 [&_input]:outline-none [&_input]:rounded [&_pagefind-ui__drawer]:w-full [&_button]:px-2 [&_input]:py-2 [&_input]:px-4 [&_form]:flex [&_form]:flex-wrap [&_input]:flex-1 [&_input]:dark:bg-gray-950"
+    >
+      <div class="pagefind-ui pagefind-ui--reset">
+        <form
+          class="pagefind-ui__form"
+          role="search"
+          aria-label="Search this site"
+          action="javascript:void(0);"
+        >
+          <input
+            class="pagefind-ui__search-input"
+            type="text"
+            placeholder="Search"
+            autocapitalize="none"
+            enterkeyhint="search"
+            style="padding-right: 56px; border-color: #fff; border-width: 0;"
+          />
+          <button class="pagefind-ui__search-clear">Clear</button>
+          <div class="pagefind-ui__drawer hidden"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
