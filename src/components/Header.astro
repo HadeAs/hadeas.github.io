@@ -62,21 +62,18 @@ const searchList = posts.map(({ data, slug }) => ({
 <script is:inline src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"
 ></script>
 <script define:vars={{ searchList }}>
-  const fuse = new Fuse(searchList, {
-    keys: ["title", "summary"],
-    includeMatches: true,
-    minMatchCharLength: 2,
-    threshold: 0.5,
-  });
-  const searchBg = document.getElementById("searchBg");
-  const searchBtn = document.getElementById("searchBtn");
-  const searchResult = document.querySelector(".pagefind-ui__drawer");
-  const searchClear = document.querySelector(".pagefind-ui__search-clear");
-  const searchInput = document.querySelector(".pagefind-ui__search-input");
-
-  globalThis.isThemeSwitherInitialized = false;
-
-  if (!globalThis.isThemeSwitherInitialized) {
+  function init() {
+    const fuse = new Fuse(searchList, {
+      keys: ["title", "summary"],
+      includeMatches: true,
+      minMatchCharLength: 2,
+      threshold: 0.5,
+    });
+    const searchBg = document.getElementById("searchBg");
+    const searchBtn = document.getElementById("searchBtn");
+    const searchResult = document.querySelector(".pagefind-ui__drawer");
+    const searchClear = document.querySelector(".pagefind-ui__search-clear");
+    const searchInput = document.querySelector(".pagefind-ui__search-input");
     searchBg.addEventListener("click", (event) => {
       if (event.target?.getAttribute("id") === "searchBg") {
         searchBg.classList.toggle("hidden", true);
@@ -121,6 +118,9 @@ const searchList = posts.map(({ data, slug }) => ({
         </div>
       `;
     });
-    globalThis.isThemeSwitherInitialized = true;
   }
+  init();
+  document.addEventListener("astro:after-swap", () => {
+    init();
+  });
 </script>
