@@ -75,7 +75,6 @@ import SearchResult from "./SearchResult.astro";
       e.target.dataset.loaded = "true";
       // load the pagefind script
       window.pagefind = await import("/pagefind/pagefind.js");
-      window.pagefind.init();
     }
 
     // search the index using the input value
