@@ -19,6 +19,12 @@ const searchList = posts.map(({ data, slug }) => ({
   data,
   slug,
 }));
+const fuse = new Fuse(searchList, {
+  keys: ["title", "summary"],
+  includeMatches: true,
+  minMatchCharLength: 2,
+  threshold: 0.5,
+});
 ---
 
 <header class="flex items-center justify-between py-10">
@@ -59,7 +65,7 @@ const searchList = posts.map(({ data, slug }) => ({
   </div>
 </header>
 <SearchResult />
-<script define:vars={{ searchList }}>
+<script define:vars={{ searchList, fuse }}>
   const searchBg = document.getElementById("searchBg");
   const searchBtn = document.getElementById("searchBtn");
   const searchResult = document.querySelector(".pagefind-ui__drawer");
@@ -69,13 +75,6 @@ const searchList = posts.map(({ data, slug }) => ({
   globalThis.isThemeSwitherInitialized = false;
 
   if (!globalThis.isThemeSwitherInitialized) {
-    const fuse = new Fuse(searchList, {
-      keys: ["title", "summary"],
-      includeMatches: true,
-      minMatchCharLength: 2,
-      threshold: 0.5,
-    });
-
     searchBg.addEventListener("click", (event) => {
       if (event.target?.getAttribute("id") === "searchBg") {
         searchBg.classList.toggle("hidden", true);
