@@ -77,20 +77,21 @@ import SearchResult from "./SearchResult.astro";
       window.pagefind = await import("/pagefind/pagefind.js");
     }
 
-    // search the index using the input value
-    const search = await window.pagefind?.search(e.target.value);
-    const tips = search.results.length
-      ? `${search.results.length} results for ${e.target.value}`
-      : `No results for ${e.target.value}`;
-    // clear the old results
-    let resHTML = "";
-    // add the new results
-    for (const result of search.results) {
-      const data = await result.data();
-      let subResHTML = "";
-      if (data.sub_results) {
-        for (const sub of data.sub_results) {
-          subResHTML += `
+    if (e.target.dataset.loaded) {
+      // search the index using the input value
+      const search = await window.pagefind.search(e.target.value);
+      const tips = search.results.length
+        ? `${search.results.length} results for ${e.target.value}`
+        : `No results for ${e.target.value}`;
+      // clear the old results
+      let resHTML = "";
+      // add the new results
+      for (const result of search.results) {
+        const data = await result.data();
+        let subResHTML = "";
+        if (data.sub_results) {
+          for (const sub of data.sub_results) {
+            subResHTML += `
               <div class="pagefind-ui__result-nested">
                 <p class="pagefind-ui__result-title">
                   <a class="pagefind-ui__result-link" href="${sub.url}">${sub.title}</a>
@@ -98,9 +99,9 @@ import SearchResult from "./SearchResult.astro";
                 <p class="pagefind-ui__result-excerpt">${sub.excerpt}</p>
               </div>
               `;
+          }
         }
-      }
-      resHTML += `
+        resHTML += `
           <li class="pagefind-ui__result">
             <div class="pagefind-ui__result-inner">
               <p class="pagefind-ui__result-title">
@@ -110,12 +111,13 @@ import SearchResult from "./SearchResult.astro";
               ${subResHTML}
             </div>
           </li>`;
-    }
-    searchResult.innerHTML = `
+      }
+      searchResult.innerHTML = `
         <div class="pagefind-ui__results-area">
           <p class="pagefind-ui__message">${tips}</p>
           <ol class="pagefind-ui__results">${resHTML}</ol>
         </div>
       `;
+    }
   });
 </script>
