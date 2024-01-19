@@ -22,7 +22,6 @@
             placeholder="Search"
             autocapitalize="none"
             enterkeyhint="search"
-            style="padding-right: 56px; border-color: #fff; border-width: 0;"
           />
           <button class="pagefind-ui__search-clear">Clear</button>
           <div class="pagefind-ui__drawer hidden"></div>
@@ -31,3 +30,38 @@
     </div>
   </div>
 </div>
+<style is:global>
+  .pagefind-ui__search-input {
+    padding-right: 56px;
+    border-color: #fff;
+    border-width: 0;
+  }
+  .pagefind-ui__drawer {
+    width: 100%;
+  }
+  .pagefind-ui__message {
+    padding: 0.5rem 1rem;
+  }
+  .pagefind-ui__result {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    --tw-bg-opacity: 1;
+    background-color: white;
+    margin-bottom: 0.5rem;
+  }
+  .pagefind-ui__result-link {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+  .pagefind-ui__result-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .pagefind-ui__result-nested {
+    position: relative;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+  }
+</style>
