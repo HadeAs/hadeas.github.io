@@ -1,32 +1,33 @@
 ---
-import type {CollectionEntry} from 'astro:content';
+import type { CollectionEntry } from "astro:content";
 
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 import SectionContainer from "../components/SectionContainer.astro";
 
-import {SITE_METADATA} from "../consts";
+import { SITE_METADATA } from "../consts";
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<"blog">["data"];
 
-const {title, description} = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <html lang={SITE_METADATA.language} class="scroll-smooth">
-<BaseHead title={title} description={description}/>
-<body class="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
-
-<!--TODO: Add Google Analytics-->
-<!--<Analytics analyticsConfig={SITE_METADATA.analytics as AnalyticsConfig} />-->
-<SectionContainer>
-    <div class="flex h-screen flex-col justify-between font-sans">
-        <Header/>
+  <BaseHead title={title} description={description} />
+  <body
+    class="bg-white text-black antialiased dark:bg-gray-950 dark:text-white"
+  >
+    <!--TODO: Add Google Analytics-->
+    <!--<Analytics analyticsConfig={SITE_METADATA.analytics as AnalyticsConfig} />-->
+    <SectionContainer>
+      <div class="flex flex-col justify-between font-sans">
+        <Header />
         <main class="mb-auto">
-            <slot/>
+          <slot />
         </main>
-        <Footer/>
-    </div>
-</SectionContainer>
-</body>
+        <Footer />
+      </div>
+    </SectionContainer>
+  </body>
 </html>

@@ -21,14 +21,18 @@ const searchList = posts.map(({ data, slug }) => ({
 }));
 ---
 
-<header class="flex items-center justify-between py-10">
+<link rel="stylesheet" href="/flipclock/flipclock.css" />
+<header
+  class="bg-white dark:bg-gray-950 sticky top-0 z-10 flex items-center justify-between py-10"
+>
   <div>
     <a href="/" aria-label={SITE_METADATA.headerTitle}>
       <div class="flex items-center justify-between">
         <div class="mr-3">
           <Logo />
         </div>
-        {
+        <div class="clock"></div>
+        <!-- {
           typeof SITE_METADATA.headerTitle === "string" ? (
             <div class="hidden h-6 text-2xl font-semibold sm:block">
               {SITE_METADATA.headerTitle}
@@ -36,7 +40,7 @@ const searchList = posts.map(({ data, slug }) => ({
           ) : (
             SITE_METADATA.headerTitle
           )
-        }
+        } -->
       </div>
     </a>
   </div>
@@ -59,6 +63,11 @@ const searchList = posts.map(({ data, slug }) => ({
   </div>
 </header>
 <SearchResult />
+<script
+  is:inline
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
+></script>
+<script is:inline src="/flipclock/flipclock.min.js"></script>
 <script is:inline src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"
 ></script>
 <script define:vars={{ searchList }}>
@@ -74,6 +83,11 @@ const searchList = posts.map(({ data, slug }) => ({
     const searchResult = document.querySelector(".pagefind-ui__drawer");
     const searchClear = document.querySelector(".pagefind-ui__search-clear");
     const searchInput = document.querySelector(".pagefind-ui__search-input");
+
+    $(".clock").FlipClock({
+      clockFace: "TwentyFourHourClock",
+    });
+
     searchBg.addEventListener("click", (event) => {
       if (event.target?.getAttribute("id") === "searchBg") {
         searchBg.classList.toggle("hidden", true);
