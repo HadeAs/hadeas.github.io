@@ -1,5 +1,4 @@
 ---
-import Fuse from "fuse.js";
 import { getCollection } from "astro:content";
 import { SITE_METADATA, NAVIGATION } from "@/consts";
 import HeaderLink from "./HeaderLink.astro";
@@ -8,9 +7,10 @@ import MobileNav from "./MobileNav.astro";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 import SearchButton from "./SearchButton.astro";
 import SearchResult from "./SearchResult.astro";
+import { excludeDrafts, sortBlogPosts } from "@/functions";
 
 // Retrieve all published articles
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getCollection("blog", excludeDrafts).then(sortBlogPosts);
 
 // List of items to search in
 const searchList = posts.map(({ data, slug }) => ({
@@ -19,12 +19,6 @@ const searchList = posts.map(({ data, slug }) => ({
   data,
   slug,
 }));
-const fuse = new Fuse(searchList, {
-  keys: ["title", "summary"],
-  includeMatches: true,
-  minMatchCharLength: 2,
-  threshold: 0.5,
-});
 ---
 
 <header class="flex items-center justify-between py-10">
@@ -65,7 +59,15 @@ const fuse = new Fuse(searchList, {
   </div>
 </header>
 <SearchResult />
-<script define:vars={{ searchList, fuse }}>
+<script is:inline src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"
+></script>
+<script define:vars={{ searchList }}>
+  const fuse = new Fuse(searchList, {
+    keys: ["title", "summary"],
+    includeMatches: true,
+    minMatchCharLength: 2,
+    threshold: 0.5,
+  });
   const searchBg = document.getElementById("searchBg");
   const searchBtn = document.getElementById("searchBtn");
   const searchResult = document.querySelector(".pagefind-ui__drawer");
@@ -101,14 +103,14 @@ const fuse = new Fuse(searchList, {
       // clear the old results
       let resHTML = "";
       // add the new results
-      for (const item of results) {
+      for (const { item } of results) {
         resHTML += `
           <li class="pagefind-ui__result">
             <div class="pagefind-ui__result-inner">
               <p class="pagefind-ui__result-title">
-                <a class="pagefind-ui__result-link" href="${item.slug}">${item.data.title}</a>
+                <a class="pagefind-ui__result-link" href="/blog/${item.slug}">${item.title}</a>
               </p>
-              <p class="pagefind-ui__result-excerpt">${item.data.summary}</p>
+              <p class="pagefind-ui__result-excerpt">${item.summary}</p>
             </div>
           </li>`;
       }
