@@ -11,7 +11,7 @@
       id="results"
       class="flex flex-col gap-y-2 [&_input]:outline-none [&_input]:rounded [&_pagefind-ui__drawer]:w-full [&_button]:px-2 [&_input]:py-2 [&_input]:px-4 [&_form]:flex [&_form]:flex-wrap [&_input]:flex-1 [&_input]:dark:bg-gray-950"
     >
-      <div class="pagefind-ui pagefind-ui--reset">
+      <!-- <div class="pagefind-ui pagefind-ui--reset">
         <form
           class="pagefind-ui__form"
           role="search"
@@ -29,12 +29,12 @@
           <button class="pagefind-ui__search-clear">Clear</button>
           <div class="pagefind-ui__drawer hidden"></div>
         </form>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
 <script is:inline>
   window.addEventListener("DOMContentLoaded", (event) => {
-    new PagefindUI({ element: "#search", showSubResults: true });
+    new PagefindUI({ element: "#results", showSubResults: true });
   });
 </script>
