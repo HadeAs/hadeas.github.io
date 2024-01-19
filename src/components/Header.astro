@@ -84,11 +84,11 @@ import SearchResult from "./SearchResult.astro";
       ? `${search.results.length} results for ${e.target.value}`
       : `No results for ${e.target.value}`;
     // clear the old results
-    resHTML = "";
+    let resHTML = "";
     // add the new results
     for (const result of search.results) {
       const data = await result.data();
-      const subResHTML = "";
+      let subResHTML = "";
       if (data.sub_results) {
         for (const sub of data.sub_results) {
           subResHTML += `
