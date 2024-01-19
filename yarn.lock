@@ -633,31 +633,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pagefind/darwin-arm64@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/@pagefind/darwin-arm64/-/darwin-arm64-1.0.4.tgz#01cf61eeeb5ed3f2ce42a9cddfa6826fa30164c2"
-  integrity sha512-2OcthvceX2xhm5XbgOmW+lT45oLuHqCmvFeFtxh1gsuP5cO8vcD8ZH8Laj4pXQFCcK6eAdSShx+Ztx/LsQWZFQ==
-
-"@pagefind/darwin-x64@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/@pagefind/darwin-x64/-/darwin-x64-1.0.4.tgz#7d8a63503c8ad39fb10faefa6838162b6845d4e7"
-  integrity sha512-xkdvp0D9Ld/ZKsjo/y1bgfhTEU72ITimd2PMMQtts7jf6JPIOJbsiErCvm37m/qMFuPGEq/8d+fZ4pydOj08HQ==
-
-"@pagefind/linux-arm64@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/@pagefind/linux-arm64/-/linux-arm64-1.0.4.tgz#d755a104125eaac32201b1359e3cd575a6382674"
-  integrity sha512-jGBrcCzIrMnNxLKVtogaQyajVfTAXM59KlBEwg6vTn8NW4fQ6nuFbbhlG4dTIsaamjEM5e8ZBEAKZfTB/qd9xw==
-
-"@pagefind/linux-x64@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/@pagefind/linux-x64/-/linux-x64-1.0.4.tgz#f8992b9a46d382d698c85cfa8c2e909d8e5b79ba"
-  integrity sha512-LIn/QcvcEtLEBqKe5vpSbSC2O3fvqbRCWOTIklslqSORisCsvzsWbP6j+LYxE9q0oWIfkdMoWV1vrE/oCKRxHg==
-
-"@pagefind/windows-x64@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/@pagefind/windows-x64/-/windows-x64-1.0.4.tgz#43e3dd4a4cb96dc5d0c1a2c239b9d5792b794667"
-  integrity sha512-QlBCVeZfj9fc9sbUgdOz76ZDbeK4xZihOBAFqGuRJeChfM8pnVeH9iqSnXgO3+m9oITugTf7PicyRUFAG76xeQ==
-
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
   resolved "https://registry.npmmirror.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
@@ -1640,6 +1615,11 @@ function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npmmirror.com/function-bind/-/function-bind-1.1.2.tgz#2c02d864d97f3ea6c8830c464cbd11ab6eab7a1c"
   integrity sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==
+
+fuse.js@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmmirror.com/fuse.js/-/fuse.js-7.0.0.tgz#6573c9fcd4c8268e403b4fc7d7131ffcf99a9eb2"
+  integrity sha512-14F4hBIxqKvD4Zz/XjDc3y94mNZN6pRv3U13Udo0lNLCWRBUsrMv2xwcF/y/Z5sV6+FQW+/ow68cHpm4sunt8Q==
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -3118,17 +3098,6 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.npmmirror.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
-
-pagefind@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npmmirror.com/pagefind/-/pagefind-1.0.4.tgz#ada6a17fefdecfaa654e730544f2d827ee35fcc7"
-  integrity sha512-oRIizYe+zSI2Jw4zcMU0ebDZm27751hRFiSOBLwc1OIYMrsZKk+3m8p9EVaOmc6zZdtqwwdilNUNxXvBeHcP9w==
-  optionalDependencies:
-    "@pagefind/darwin-arm64" "1.0.4"
-    "@pagefind/darwin-x64" "1.0.4"
-    "@pagefind/linux-arm64" "1.0.4"
-    "@pagefind/linux-x64" "1.0.4"
-    "@pagefind/windows-x64" "1.0.4"
 
 parse-entities@^4.0.0:
   version "4.0.1"

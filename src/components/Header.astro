@@ -1,4 +1,6 @@
 ---
+import Fuse from "fuse.js";
+import { getCollection } from "astro:content";
 import { SITE_METADATA, NAVIGATION } from "@/consts";
 import HeaderLink from "./HeaderLink.astro";
 import Logo from "./Logo.astro";
@@ -6,6 +8,17 @@ import MobileNav from "./MobileNav.astro";
 import ThemeSwitcher from "./ThemeSwitcher.astro";
 import SearchButton from "./SearchButton.astro";
 import SearchResult from "./SearchResult.astro";
+
+// Retrieve all published articles
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+// List of items to search in
+const searchList = posts.map(({ data, slug }) => ({
+  title: data.title,
+  summary: data.summary,
+  data,
+  slug,
+}));
 ---
 
 <header class="flex items-center justify-between py-10">
@@ -46,69 +59,57 @@ import SearchResult from "./SearchResult.astro";
   </div>
 </header>
 <SearchResult />
-<script is:inline>
+<script define:vars={{ searchList }}>
   const searchBg = document.getElementById("searchBg");
   const searchBtn = document.getElementById("searchBtn");
   const searchResult = document.querySelector(".pagefind-ui__drawer");
   const searchClear = document.querySelector(".pagefind-ui__search-clear");
   const searchInput = document.querySelector(".pagefind-ui__search-input");
 
-  searchBg.addEventListener("click", (event) => {
-    if (event.target?.getAttribute("id") === "searchBg") {
-      searchBg.classList.toggle("hidden", true);
-    }
-  });
+  globalThis.isThemeSwitherInitialized = false;
 
-  searchBtn.addEventListener("click", () => {
-    searchBg.classList.toggle("hidden", false);
-  });
+  if (!globalThis.isThemeSwitherInitialized) {
+    const fuse = new Fuse(searchList, {
+      keys: ["title", "summary"],
+      includeMatches: true,
+      minMatchCharLength: 2,
+      threshold: 0.5,
+    });
 
-  searchClear.addEventListener("click", () => {
-    searchInput.value = "";
-    searchResult.classList.toggle("hidden", true);
-  });
+    searchBg.addEventListener("click", (event) => {
+      if (event.target?.getAttribute("id") === "searchBg") {
+        searchBg.classList.toggle("hidden", true);
+      }
+    });
 
-  searchInput?.addEventListener("input", async (e) => {
-    searchResult.classList.toggle("hidden", e.target.value ? false : true);
-    // only load the pagefind script once
-    if (e.target.dataset.loaded !== "true") {
-      e.target.dataset.loaded = "true";
-      // load the pagefind script
-      window.pagefind = await import("/pagefind/pagefind.js");
-    }
+    searchBtn.addEventListener("click", () => {
+      searchBg.classList.toggle("hidden", false);
+    });
 
-    if (e.target.dataset.loaded) {
+    searchClear.addEventListener("click", () => {
+      searchInput.value = "";
+      searchResult.classList.toggle("hidden", true);
+    });
+
+    searchInput?.addEventListener("input", async (e) => {
+      searchResult.classList.toggle("hidden", e.target.value ? false : true);
+
       // search the index using the input value
-      const search = await window.pagefind.search(e.target.value);
-      const tips = search.results.length
-        ? `${search.results.length} results for ${e.target.value}`
+      const results = e.target.value ? fuse.search(e.target.value) : [];
+      const tips = results.length
+        ? `${results.length} results for ${e.target.value}`
         : `No results for ${e.target.value}`;
       // clear the old results
       let resHTML = "";
       // add the new results
-      for (const result of search.results) {
-        const data = await result.data();
-        let subResHTML = "";
-        if (data.sub_results) {
-          for (const sub of data.sub_results) {
-            subResHTML += `
-              <div class="pagefind-ui__result-nested">
-                <p class="pagefind-ui__result-title">
-                  <a class="pagefind-ui__result-link" href="${sub.url}">${sub.title}</a>
-                </p>
-                <p class="pagefind-ui__result-excerpt">${sub.excerpt}</p>
-              </div>
-              `;
-          }
-        }
+      for (const item of results) {
         resHTML += `
           <li class="pagefind-ui__result">
             <div class="pagefind-ui__result-inner">
               <p class="pagefind-ui__result-title">
-                <a class="pagefind-ui__result-link" href="${data.url}">${data.meta.title}</a>
+                <a class="pagefind-ui__result-link" href="${item.slug}">${item.data.title}</a>
               </p>
-              <p class="pagefind-ui__result-excerpt">${data.excerpt}</p>
-              ${subResHTML}
+              <p class="pagefind-ui__result-excerpt">${item.data.summary}</p>
             </div>
           </li>`;
       }
@@ -118,6 +119,7 @@ import SearchResult from "./SearchResult.astro";
           <ol class="pagefind-ui__results">${resHTML}</ol>
         </div>
       `;
-    }
-  });
+    });
+    globalThis.isThemeSwitherInitialized = true;
+  }
 </script>
