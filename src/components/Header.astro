@@ -78,7 +78,7 @@ import SearchResult from "./SearchResult.astro";
     }
 
     // search the index using the input value
-    const search = await window.pagefind.search(e.target.value);
+    const search = await window.pagefind?.search(e.target.value);
     const tips = search.results.length
       ? `${search.results.length} results for ${e.target.value}`
       : `No results for ${e.target.value}`;
