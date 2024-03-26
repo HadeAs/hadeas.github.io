@@ -9,6 +9,7 @@ import FormattedDate from "../components/FormattedDate.astro";
 import Tag from "../components/Tag.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import ScrollTopAndComments from "../components/ScrollTopAndComments.astro";
+import PostComments from "../components/PostComments.astro";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -213,5 +214,6 @@ const { Content, headings, remarkPluginFrontmatter } = await post.render();
         </div>
       </div>
     </article>
+    <PostComments />
   </SectionContainer>
 </RootLayout>
